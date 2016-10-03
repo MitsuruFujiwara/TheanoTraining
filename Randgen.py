@@ -26,10 +26,16 @@ class Randgen:
         self.x = list(self.__x())
         for i in range(0, self.M):
             yield np.sin(2 * np.pi * self.x[i])
+    
+    def linear_y(self):
+        self.x = list(self.__x())
+        for i in range(0, self.M):
+            w = np.random.normal(0.0, self.sigma, self.N)
+            yield self.x[i] + w
 
 if __name__ == '__main__':
     r = Randgen(100, 1000, 0.03)
-    y = list(r.sin_wave_y())
+    y = list(r.linear_y())
     x = r.x
 
     fig = plt.figure()
