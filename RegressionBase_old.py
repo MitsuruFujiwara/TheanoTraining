@@ -16,8 +16,8 @@ class RegressionBase(object):
 
     def __init__(self, trX, trY, numStep, learning_rate):
         # training data
-        self.trX = theano.shared(np.asarrat(trX, dtype = theano.config.floatX)
-        self.trY = theano.shared(np.asarrat(trY, dtype = theano.config.floatX)
+        self.trX = theano.shared(np.asarrat(trX))
+        self.trY = theano.shared(np.asarrat(trY))
 
         self.numStep = numStep # number of training
         self.learning_rate = learning_rate # learning rate for training
@@ -26,14 +26,21 @@ class RegressionBase(object):
         self.n = len(trY)
         self.m = 1 #TBD
         self.w = theano.shared(np.zeros((self.m, 1), dtype = theano.config.floatX))
-        self.b = theano.shared(np.zeros((1, 1), dtype = theano.config.floatX))
+        self.b = theano.shared(0.0)
         self.params = (self.w, self.b)
 
     def inference(self):
         return T.dot(self.trX, self.w) + self.b
 
-    def loss():
+    def loss(self):
         # loss function
+        return T.mean(T.pow(self.trY - self.inference(), 2.0))
+
+    def train(self):
+        # Set Gradient
+        self.grad_w =
+
+
 
 
 
