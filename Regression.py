@@ -20,8 +20,8 @@ class RegressionBase(object):
         """
 
         self.trX = trX
-        self.w = theano.shared(np.zeros((numInput, numOutput), dtype=theano.config.floatX))
-        self.b = theano.shared(np.zeros((numOutput,), dtype=theano.config.floatX))
+        self.w = w
+        self.b = b
         self.params = (self.w, self.b)
 
     def inference(self):
@@ -40,7 +40,7 @@ class LogisticRegression(RegressionBase):
     """
 
     def __init__(self, trX, numInput, numOutput):
-        RegressionBase.__init__(self, trX, numInput, numOutput):
+        RegressionBase.__init__(self, trX, numInput, numOutput)
 
     def inference(self):
         # predict function
@@ -49,3 +49,18 @@ class LogisticRegression(RegressionBase):
     def loss(self, y):
         # return negative log-likehood function
         return -T.mean(T.log(self.inference())[T.arange(y.shape[0]), y])
+
+
+class RectifiedLinearRegression(RegressionBase):
+    
+    """
+    Class for Rectified Linear Regression
+    """
+    
+    def __init__(self, trX, numInput, numOutput):
+        RegressionBase.__init__(self, trX, numInput, numOutput)
+            
+    def inference(self):
+        # predict function
+        return T.nnet.relu(T.dot(self.trX, self.w) + self.b)
+        
